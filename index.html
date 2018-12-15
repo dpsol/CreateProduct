@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Product Tracker</title>
+
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+
+    <!-- Moment.js Reference -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <style>
+      #Product-table th,
+      td {
+        display: inline-block;
+        width: 12.5%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Jumbotron -->
+    <div class="jumbotron" style="background-color: black; color: white">
+      <h1 class="text-center">Product Data Management</h1>
+      <h3 class="text-center">
+        A Comprehensive Directory of Product on Gyfted
+      </h3>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Current Products -->
+        <div class="card mb-4">
+          <div class="card-header">Current Products</div>
+          <div class="card-body">
+            <table class="table table-sm table-hover" id="Product-table">
+              <thead>
+                <tr>
+                  <th scope="col">SKU</th>
+                  <th scope="col">Product brand</th>
+                  <th scope="col">Product title</th>
+                  <th scope="col">Product description</th>
+                  <th scope="col">Product specs</th>
+                  <th scope="col">Color</th>
+                  <th scope="col">Full price ($)</th>
+                  <th scope="col">Discounted price ($)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Add Product -->
+        <div class="card mb-4">
+          <div class="card-header">Add Product</div>
+          <div class="card-body">
+            <!-- Entry Form -->
+            <form>
+              <div class="form-group">
+                <label for="product-sku-inpu">SKU</label>
+                <input
+                  class="form-control"
+                  id="product-sku-input"
+                  placeholder="SKU"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-genres-input">Gender</label>
+                <input
+                  class="form-control"
+                  id="product-genres-input"
+                  placeholder="Gender"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-categories-input">Category</label>
+                <input
+                  class="form-control"
+                  id="product-categories-input"
+                  placeholder="Category"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-sub-categories-input">Sub Categories</label>
+                <input
+                  class="form-control"
+                  id="product-sub-categories-input"
+                  placeholder="Sub Categories"
+                  type="text"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="product-brand-input">Brand name</label>
+                <input
+                  class="form-control"
+                  id="product-brand-input"
+                  placeholder="Brand name"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-title-input">Product title</label>
+                <input
+                  class="form-control"
+                  id="product-title-input"
+                  placeholder="Product title"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-desc-input">Product description</label>
+                <input
+                  class="form-control"
+                  id="product-desc-input"
+                  placeholder="Product description"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-spec-input">Product Specification</label>
+                <input
+                  class="form-control"
+                  id="product-spec-input"
+                  placeholder="Product Specification"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-color-input1">Color 1</label>
+                <input
+                  class="form-control"
+                  id="product-color-input1"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-color-input2">Color 2</label>
+                <input
+                  class="form-control"
+                  id="product-color-input2"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-color-input3">Color 3</label>
+                <input
+                  class="form-control"
+                  id="product-color-input3"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-color-input4">Color 4</label>
+                <input
+                  class="form-control"
+                  id="product-color-input4"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-color-input5">Color 5</label>
+                <input
+                  class="form-control"
+                  id="product-color-input5"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-color-input6">Color 6</label>
+                <input
+                  class="form-control"
+                  id="product-color-input6"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input1">Image color 1</label>
+                <input
+                  class="form-control"
+                  id="product-image-input1"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input112">Image 1</label>
+                <input
+                  class="form-control"
+                  id="product-image-input11"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input1">Image 2</label>
+                <input
+                  class="form-control"
+                  id="product-image-input12"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input2">Image color 2</label>
+                <input
+                  class="form-control"
+                  id="product-image-input2"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input21">Image 1</label>
+                <input
+                  class="form-control"
+                  id="product-image-input21"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input22">Image 2</label>
+                <input
+                  class="form-control"
+                  id="product-image-input22"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input3">Image color 3</label>
+                <input
+                  class="form-control"
+                  id="product-image-input3"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input31">Image 1</label>
+                <input
+                  class="form-control"
+                  id="product-image-input31"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input32">Image 2</label>
+                <input
+                  class="form-control"
+                  id="product-image-input32"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input4">Image color 4</label>
+                <input
+                  class="form-control"
+                  id="product-image-input4"
+                  placeholder="Color"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input41">Image 1</label>
+                <input
+                  class="form-control"
+                  id="product-image-input41"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-image-input42">Image 2</label>
+                <input
+                  class="form-control"
+                  id="product-image-input42"
+                  placeholder="Image"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-location-input1">Location 1</label>
+                <input
+                  class="form-control"
+                  id="product-location-input1"
+                  placeholder="Location"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-location-input2">Location 2</label>
+                <input
+                  class="form-control"
+                  id="product-location-input2"
+                  placeholder="Location"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-location-input3">Location 3</label>
+                <input
+                  class="form-control"
+                  id="product-location-input3"
+                  placeholder="Location"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-location-input4">Location 4</label>
+                <input
+                  class="form-control"
+                  id="product-location-input4"
+                  placeholder="Location"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-location-input5">Location 5</label>
+                <input
+                  class="form-control"
+                  id="product-location-input5"
+                  placeholder="Location"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-price-input">Full price ($)</label>
+                <input
+                  class="form-control"
+                  id="product-price-input"
+                  placeholder="Full price ($)"
+                  type="text"
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-discount-price-input">Discounted price ($)</label>
+                <input
+                  class="form-control"
+                  id="product-discount-price-input"
+                  placeholder="Discounted price ($)"
+                  type="text"
+                />
+              </div>
+              <button class="btn btn-primary float-right" id="add-product-btn">
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="firestore.js"></script>
+  </body>
+</html>
